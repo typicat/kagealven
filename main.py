@@ -1,20 +1,15 @@
 import pandas as pd
 
 
-def stats():
-    # TODO:
-    # count species
-    # summary catch of each specie
-    print("Done! ")
-
-
 def main():
     print("Fetching reports..")
     data = pd.read_html(url)
     df = data[0]
     df = df.fillna('')
+    print("Writing csv..")
     df.to_csv('output.csv', index=False, header=False)
-    stats()
+    sum = df[2].value_counts()
+    print(sum)
 
 
 if __name__ == "__main__":
