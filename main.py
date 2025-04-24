@@ -8,8 +8,11 @@ def main():
     df = df.fillna('')
     print("Writing csv..")
     df.to_csv('output.csv', index=False, header=False)
-    sum = df[2].value_counts()
-    print(sum)
+    sum_art = df[2].value_counts()
+    sum_loc = df[10].value_counts()
+    print(sum_art)
+    print("-" * 25)
+    print(sum_loc)
 
 
 if __name__ == "__main__":
