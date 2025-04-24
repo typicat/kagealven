@@ -11,7 +11,7 @@ def main():
     sum_art = df[2].value_counts()
     sum_loc = df[10].value_counts()
     print(sum_art)
-    print("-" * 25)
+    print("-" * 35)
     print(sum_loc)
 
 
