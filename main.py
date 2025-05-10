@@ -2,6 +2,8 @@ import pandas as pd
 
 
 def main():
+    print("kagealven v0.1.0")
+    print("Fetching reports...")
     df = pd.read_html(url)[0]
     df = df.fillna("")
 
@@ -10,7 +12,6 @@ def main():
     sum_art = df[species_column].value_counts()
     sum_loc = df[location_column].value_counts()
 
-    print("Writing csv..")
     df.to_csv("output.csv", index=False, header=False)
 
     print(sum_art)
