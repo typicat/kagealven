@@ -16,9 +16,17 @@ def main(url):
     sum_loc = df[LOCATION_COLUMN].value_counts()
 
     df.to_csv("output.csv", index=False, header=False)
-    print(sum_art)
+    print("Arter:")
+    for species, count in sum_art.items():
+        print(f"{species}: {count}")
     print("-" * 35)
-    print(sum_loc)
+    print("Platser:")
+    for location, count in sum_loc.items():
+        print(f"{location}: {count}")
+    print("-" * 35)
+    print("Senaste 3:")
+    for i, row in df.head(3).iterrows():
+        print(", ".join(str(x) for x in row))
 
 
 if __name__ == "__main__":
