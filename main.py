@@ -1,25 +1,26 @@
 import pandas as pd
 
+SPECIES_COLUMN = 2
+LOCATION_COLUMN = 10
 
-def main():
+def main(url):
     print("kagealven v0.1.0 - fetching reports...")
-    df = pd.read_html(url)[0]
+    try:
+        df = pd.read_html(url)[0]
+    except Exception as e:
+        print(f"Error fetching or parsing HTML: {e}")
+        return
+
     df = df.fillna("")
-    species_column = 2
-    location_column = 10
-    sum_art = df[species_column].value_counts()
-    sum_loc = df[location_column].value_counts()
+    sum_art = df[SPECIES_COLUMN].value_counts()
+    sum_loc = df[LOCATION_COLUMN].value_counts()
 
     df.to_csv("output.csv", index=False, header=False)
     print(sum_art)
     print("-" * 35)
     print(sum_loc)
-    print("Latest entry:")
-
-    latest_report = pd.DataFrame([df.iloc[0]])
-    print(latest_report.to_string())
 
 
 if __name__ == "__main__":
     url = "https://kagealven.com/fangstrapporter-aktuella"
-    main()
+    main(url)
