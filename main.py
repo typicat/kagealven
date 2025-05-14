@@ -4,7 +4,7 @@ SPECIES_COLUMN = 2
 LOCATION_COLUMN = 10
 
 def main(url):
-    print("kagealven v0.1.0 - fetching reports...")
+    print("kagealven v0.1.1 - hämtar rapporter...")
     try:
         df = pd.read_html(url)[0]
     except Exception as e:
@@ -26,7 +26,7 @@ def main(url):
     print("-" * 35)
     print("Senaste 3:")
     for i, row in df.head(3).iterrows():
-        print(", ".join(str(x) for x in row))
+        print(" ".join(str(x) for x in row))
 
 
 if __name__ == "__main__":
