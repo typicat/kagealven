@@ -3,7 +3,7 @@ import pandas as pd
 SPECIES_COLUMN = 2
 LOCATION_COLUMN = 10
 
-def main(url):
+def main(url) -> None:
     print("kagealven v0.1.1 - hämtar rapporter...")
     try:
         df = pd.read_html(url)[0]
