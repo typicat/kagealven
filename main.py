@@ -3,7 +3,7 @@ import pandas as pd
 SPECIES_COLUMN = 2
 LOCATION_COLUMN = 10
 
-def main(url) -> None:
+def main(url: str) -> None:
     print("kagealven v0.1.1 - hämtar rapporter...")
     try:
         df = pd.read_html(url)[0]
@@ -12,8 +12,9 @@ def main(url) -> None:
         return
 
     df = df.fillna("")
-    sum_art = df[SPECIES_COLUMN].value_counts()
-    sum_loc = df[LOCATION_COLUMN].value_counts()
+    # Only cast to str if needed
+    sum_art = df.iloc[:, SPECIES_COLUMN].value_counts()
+    sum_loc = df.iloc[:, LOCATION_COLUMN].value_counts()
 
     df.to_csv("output.csv", index=False, header=False)
     print("Arter:")
@@ -25,9 +26,8 @@ def main(url) -> None:
         print(f"{location}: {count}")
     print("-" * 35)
     print("Senaste 3:")
-    for i, row in df.head(3).iterrows():
+    for row in df.head(3).itertuples(index=False):
         print(" ".join(str(x) for x in row))
-
 
 if __name__ == "__main__":
     url = "https://kagealven.com/fangstrapporter-aktuella"
