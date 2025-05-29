@@ -3,6 +3,7 @@ import pandas as pd
 SPECIES_COLUMN = 2
 LOCATION_COLUMN = 10
 
+
 def main(url: str) -> None:
     print("kagealven v0.1.1 - hämtar rapporter...")
     try:
@@ -12,7 +13,6 @@ def main(url: str) -> None:
         return
 
     df = df.fillna("")
-    # Only cast to str if needed
     sum_art = df.iloc[:, SPECIES_COLUMN].value_counts()
     sum_loc = df.iloc[:, LOCATION_COLUMN].value_counts()
 
@@ -28,6 +28,7 @@ def main(url: str) -> None:
     print("Senaste 3:")
     for row in df.head(3).itertuples(index=False):
         print(" ".join(str(x) for x in row))
+
 
 if __name__ == "__main__":
     url = "https://kagealven.com/fangstrapporter-aktuella"
