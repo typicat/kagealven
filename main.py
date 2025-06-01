@@ -17,15 +17,13 @@ def main(url: str) -> None:
     sum_loc = df.iloc[:, LOCATION_COLUMN].value_counts()
 
     df.to_csv("output.csv", index=False, header=False)
-    print("Arter:")
+    print("\033[34mArter:\033[0m")
     for species, count in sum_art.items():
         print(f"{species}: {count}")
-    print("-" * 35)
-    print("Platser:")
+    print("\033[34mPlatser:\033[0m")
     for location, count in sum_loc.items():
         print(f"{location}: {count}")
-    print("-" * 35)
-    print("Senaste 3:")
+    print("\033[32mSenaste 3:\033[0m")
     for row in df.head(3).itertuples(index=False):
         print(" ".join(str(x) for x in row))
 
