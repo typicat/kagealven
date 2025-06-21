@@ -1,6 +1,6 @@
 ## Fångstrapporter för Kågeälven
 
-Behöver Python med Pandas.
+Behöver Pandas och lxml. 
 
 ```
 uv init
