@@ -2,6 +2,8 @@
 
 Behöver Pandas och lxml. 
 
+Med uv:
+
 ```
 uv init
 uv venv
@@ -12,3 +14,7 @@ uv pip install lxml
 uv run main.py
 ```
 
+Utan uv:
+```
+pip3 install pandas lxml
+```
