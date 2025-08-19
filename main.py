@@ -4,6 +4,12 @@ SPECIES_COLUMN = 2
 LOCATION_COLUMN = 10
 
 
+def print_counts(title: str, counts: pd.Series) -> None:
+    print(f"\033[34m{title}:\033[0m")
+    for item, count in counts.items():
+        print(f"{item}: {count}")
+
+
 def main(url: str) -> None:
     print("kagealven v0.1.1 - hämtar rapporter...")
     try:
@@ -12,18 +18,19 @@ def main(url: str) -> None:
         print(f"Error fetching or parsing HTML: {e}")
         return
 
+    if df.empty:
+        print("No data found.")
+        return
+
     df = df.fillna("")
-    sum_art = df.iloc[:, SPECIES_COLUMN].value_counts()
-    sum_loc = df.iloc[:, LOCATION_COLUMN].value_counts()
+    species_counts = df.iloc[:, SPECIES_COLUMN].value_counts()
+    location_counts = df.iloc[:, LOCATION_COLUMN].value_counts()
 
     df.to_csv("output.csv", index=False, header=False)
-    print("\033[34mArter:\033[0m")
-    for species, count in sum_art.items():
-        print(f"{species}: {count}")
-    print("\033[34mPlatser:\033[0m")
-    for location, count in sum_loc.items():
-        print(f"{location}: {count}")
+    print_counts("Arter", species_counts)
+    print_counts("Platser", location_counts)
     print("\033[32mSenaste 3:\033[0m")
+    # Print the latest 3 rows, newest first
     for row in df.head(3).itertuples(index=False):
         print(" ".join(str(x) for x in row))
 
