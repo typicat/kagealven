@@ -11,7 +11,7 @@ def print_counts(title: str, counts: pd.Series) -> None:
 
 
 def main(url: str) -> None:
-    print("kagealven v0.1.1 - hämtar rapporter...")
+    print("kagealven v0.1.1\n\nHämtar rapporter...")
     try:
         df = pd.read_html(url)[0]
     except Exception as e:
@@ -28,7 +28,9 @@ def main(url: str) -> None:
 
     df.to_csv("output.csv", index=False, header=False)
     print_counts("Arter", species_counts)
+    print()
     print_counts("Platser", location_counts)
+    print()
     print("\033[32mSenaste 3:\033[0m")
     # Print the latest 3 rows, newest first
     for i, row in enumerate(df.head(3).itertuples(index=False), 1):
