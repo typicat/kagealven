@@ -25,7 +25,7 @@ def print_counts(title: str, counts: pd.Series) -> None:
 
 def main(url: str) -> None:
     ver = "0.1.2"
-    print(f"kagealven v{ver}\n\nHämtar rapporter...")
+    print(f"kagealven v{ver}\n\n{FIREFOX_USER_AGENT}\nHämtar rapporter...")
     try:
         html = fetch_html_with_firefox_ua(url)
         df = pd.read_html(StringIO(html))[0]
