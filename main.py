@@ -1,7 +1,20 @@
 import pandas as pd
+from io import StringIO
+from datetime import datetime
+from urllib.request import Request, urlopen
 
 SPECIES_COLUMN = 2
 LOCATION_COLUMN = 10
+FIREFOX_USER_AGENT = (
+    "Mozilla/5.0 (X11; Linux x86_64; rv:138.0) "
+    "Gecko/20100101 Firefox/138.0"
+)
+
+
+def fetch_html_with_firefox_ua(url: str) -> str:
+    request = Request(url, headers={"User-Agent": FIREFOX_USER_AGENT})
+    with urlopen(request, timeout=30) as response:
+        return response.read().decode("utf-8", errors="replace")
 
 
 def print_counts(title: str, counts: pd.Series) -> None:
@@ -13,7 +26,8 @@ def print_counts(title: str, counts: pd.Series) -> None:
 def main(url: str) -> None:
     print("kagealven v0.1.1\n\nHämtar rapporter...")
     try:
-        df = pd.read_html(url)[0]
+        html = fetch_html_with_firefox_ua(url)
+        df = pd.read_html(StringIO(html))[0]
     except Exception as e:
         print(f"Error fetching or parsing HTML: {e}")
         return
@@ -26,7 +40,9 @@ def main(url: str) -> None:
     species_counts = df.iloc[:, SPECIES_COLUMN].value_counts()
     location_counts = df.iloc[:, LOCATION_COLUMN].value_counts()
 
-    df.to_csv("output.csv", index=False, header=False)
+    current_year = datetime.now().year
+    output_filename = f"output_{current_year}.csv"
+    df.to_csv(output_filename, index=False, header=False)
     print_counts("Arter", species_counts)
     print()
     print_counts("Platser", location_counts)
