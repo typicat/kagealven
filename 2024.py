@@ -18,5 +18,4 @@ def fetch_html_with_firefox_ua(url: str) -> str:
 url = "https://kagealven.com/2025/02/2024/"
 html = fetch_html_with_firefox_ua(url)
 df = pd.read_html(StringIO(html))[0]
-df = df.fillna("")
-df.to_csv("output_2024.csv", index=False, header=False)
+df.to_csv("output_2024.csv", index=False, header=False, na_rep="")

@@ -36,26 +36,25 @@ def main(url: str) -> None:
         print("No data found.")
         return
 
-    df = df.fillna("")
-    species_counts = df.iloc[:, SPECIES_COLUMN].value_counts()
-    location_counts = df.iloc[:, LOCATION_COLUMN].value_counts()
+    species_counts = df.iloc[:, SPECIES_COLUMN].dropna().astype(str).value_counts()
+    location_counts = df.iloc[:, LOCATION_COLUMN].dropna().astype(str).value_counts()
 
     current_year = datetime.now().year
     output_filename = f"output_{current_year}.csv"
-    df.to_csv(output_filename, index=False, header=False)
+    # Avoid creating a full copied DataFrame just to replace NaN when writing CSV.
+    df.to_csv(output_filename, index=False, header=False, na_rep="")
     print_counts("Arter", species_counts)
     print()
     print_counts("Platser", location_counts)
     print()
     print("\033[32mSenaste 3:\033[0m")
     # Print the latest 3 rows, newest first
-    for i, row in enumerate(df.head(3).itertuples(index=False), 1):
-        row_data = [str(x) for x in row]
-        name = row_data[0] if len(row_data) > 0 else ""
-        date = row_data[1] if len(row_data) > 1 else ""
-        species = row_data[2] if len(row_data) > 2 else ""
-        weight = row_data[8] if len(row_data) > 8 else ""
-        location = row_data[10] if len(row_data) > 10 else ""
+    for i, row in enumerate(df.head(3).itertuples(index=False, name=None), 1):
+        name = "" if len(row) <= 0 or pd.isna(row[0]) else str(row[0])
+        date = "" if len(row) <= 1 or pd.isna(row[1]) else str(row[1])
+        species = "" if len(row) <= 2 or pd.isna(row[2]) else str(row[2])
+        weight = "" if len(row) <= 8 or pd.isna(row[8]) else str(row[8])
+        location = "" if len(row) <= 10 or pd.isna(row[10]) else str(row[10])
 
         print(f"{i}. {name:<15} {date:<12} {species:<8} {weight:<8} {location}")
 
